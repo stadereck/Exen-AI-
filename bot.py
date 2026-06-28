@@ -20,7 +20,10 @@ async def load_extensions() -> None:
 
         extension = f"cogs.{path.stem}"
         try:
-            await bot.load_extension(extension)
+            print("="*40)
+print("TOKEN:", repr(BotConfig.TOKEN[:25]))
+print("GROQ :", repr(BotConfig.GROQ_API_KEY[:15]))
+print("="*40)
             print(f"✅ Cargada extension: {extension}")
         except Exception as error:
             print(f"❌ Error al cargar {extension}: {error}")
