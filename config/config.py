@@ -6,8 +6,8 @@ load_dotenv()
 
 @dataclass(frozen=True)
 class BotConfig:
-    TOKEN: str = os.getenv("TOKEN", "")
-    GROQ_API_KEY: str = os.getenv("GROQ_API_KEY", "")
+    print("TOKEN:", TOKEN[:20] if TOKEN else "No encontrado")
+print("GROQ:", GROQ_API_KEY[:20] if GROQ_API_KEY else "No encontrada")
     DATABASE_PATH: str = os.getenv("DATABASE_PATH", "database/bot.sqlite")
     GUILD_ID: int = int(os.getenv("GUILD_ID", "1507599533365002281"))
     OWNER_ROLES: tuple[str, ...] = ("Owner", "CoOwner")
