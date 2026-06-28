@@ -12,21 +12,25 @@ from database.database import Database
 BASE_DIR = Path(__file__).resolve().parent
 
 
-async def load_extensions() -> None:
-    """Carga automáticamente todos los cogs en la carpeta cogs."""
-    for path in sorted((BASE_DIR / "cogs").glob("*.py")):
-        if path.name == "__init__.py":
-            continue
+async def main() -> None:
+    _setup_working_directory()
+    BotConfig.validate()
 
-        extension = f"cogs.{path.stem}"
-        try:
-            print("="*40)
-print("TOKEN:", repr(BotConfig.TOKEN[:25]))
-print("GROQ :", repr(BotConfig.GROQ_API_KEY[:15]))
-print("="*40)
-            print(f"✅ Cargada extension: {extension}")
-        except Exception as error:
-            print(f"❌ Error al cargar {extension}: {error}")
+    bot.db = Database()
+    await bot.db.connect()
+
+    await load_extensions()
+
+    print("=" * 40)
+    print("TOKEN:", repr(BotConfig.TOKEN))
+    print("Longitud:", len(BotConfig.TOKEN))
+    print("GROQ:", repr(BotConfig.GROQ_API_KEY[:15]))
+    print("=" * 40)
+
+    try:
+        await bot.start(BotConfig.TOKEN)
+    finally:
+        await bot.db.close()
 
 
 intents = discord.Intents.default()
